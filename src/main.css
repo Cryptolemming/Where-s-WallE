@@ -1,0 +1,138 @@
+html, body {
+ margin: 0;
+ color: white;
+}
+
+body{
+	background: url('../images/space.jpg') no-repeat;
+	background-size: cover;
+}
+
+ul {
+	display: inline;
+	list-style-type: none;
+}
+
+.title {
+	color: #a100c1;
+	overflow: hidden;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	font-style: bold;
+	font-size: 5em;
+    text-shadow: 0 1px 0 #000,
+           0 2px 0 #111,
+           0 3px 0 #222,
+           0 4px 0 #333,
+           0 5px 0 #444,
+           0 6px 1px rgba(0,0,0,.1),
+           0 0 5px rgba(0,0,0,.1),
+           0 1px 3px rgba(0,0,0,.3),
+           0 3px 5px rgba(0,0,0,.2),
+           0 5px 10px rgba(0,0,0,.25),
+           0 10px 10px rgba(0,0,0,.2),
+           0 20px 20px rgba(0,0,0,.15);
+}
+
+#container {
+	margin-left: auto;
+	margin-right: auto;
+	width: 1000px;
+	height: 500px;
+	background: transparent;
+}
+
+.game-container {
+	width: 80%;
+	height: 80%;
+	background: transparent;
+	margin-left: auto;
+	margin-right: auto;
+}
+.game-info {
+	margin-left: 55px;
+	width: 110%;
+	height: 25%;
+	font-size: 4em;
+	font-style: bold;
+	color: yellow;
+}
+
+.game-board {
+	margin-left: auto;
+	margin-right: auto;
+	background: transparent;
+	padding: 10px;
+	width: 95%;
+	height: 85%;
+	color: yellow;
+	display: inline-block;
+}
+
+.game-card {
+	cursor: pointer;
+	border-radius: 50%;
+	width: 22%;
+	height: 30%;
+	background: 'bababa';
+	background-size: 'cover';
+	opacity: .96;
+	margin: 2% 0 0 3%;
+    box-shadow: inset 5px 5px 15px #000;
+    border: 1px solid black;
+}
+
+.grid > li {
+	float: left;
+
+}
+
+.game-counters > li {
+	float: left;
+	margin: 5px 10px 0 5px;
+}
+
+.game-counters >li:nth-child(2) {
+	margin-right: 225px;
+}
+
+.game-controllers >li:nth-child(3) {
+}
+
+.game-controllers >li:nth-child(4) {
+}
+
+.start-button{
+	background: #00FF00;
+	padding: 15px;
+	opacity: .8;
+	font-style: bold;
+	margin: 5px 10px 5px 125px;
+	color: purple;
+	border-radius: 15px;
+	border: 0px;
+	cursor: pointer;
+	box-shadow: 3px 5px 5px purple;
+	float: right;
+	font-size: .4em;
+}
+
+button:focus {outline:0;}
+button:hover {opacity: 1.5;}
+button:active { box-shadow: 1px 2px 5px; margin: 7px 6px 5px 126px;}
+
+.x-counter {
+	margin-top: 5px;
+	width: 80px;
+}
+
+.walle-counter {
+	width: 105px;
+	border-radius: 50%;
+	position: absolute;
+	margin-left: -100px;
+
+}
+
+@import 'reset.css'
