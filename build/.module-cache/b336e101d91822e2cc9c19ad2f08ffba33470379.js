@@ -25,8 +25,9 @@ var StartGame = React.createClass({displayName: "StartGame",
 
 var Win = React.createClass({displayName: "Win",
 	render: function() {
+		var styling = this.props.styling(this.props.win);
 		return (
-			React.createElement("div", {className: "win-modal"}, 
+			React.createElement("div", {className: "win-modal", style: styling}, 
 				React.createElement("p", {className: "win"}, "YOU WIN!")
 		  	)
 		);
@@ -63,6 +64,14 @@ var GameBoard = React.createClass({displayName: "GameBoard",
 			};
 		}
 	},
+	winStyling: function(win) {
+		win = this.state.win;
+		if (win) {
+			return {
+				visibility: 'visible',
+			}
+		}
+	},
 	infoCreation: function(gameOver) {
 		if (this.state !== null) {
 			gameOver = this.state.gameOver;
@@ -71,75 +80,21 @@ var GameBoard = React.createClass({displayName: "GameBoard",
 		}
 		return React.createElement(StartGame, {onClick: this.onStartClick, styling: this.gameOverStyling, gameOver: gameOver});
 	},
-	boardCreation: function (images, flipped) {
+	boardCreation: function (images, flipped, win) {
 	    images = images || this.state.imagesArray;
 	    flipped = flipped || this.state.flipped;
 	    var self = this;
+	    if (this.state == null) {
+	    	win = false;
+	    } else {
+	    	win = this.state.win;
+	    }
+	    if (win) {
+	    	return React.createElement(Won, {style: winStyling, win: win});
+	    }
 	    return images.map(function (image, i) {
 	         return React.createElement(Card, {key: i, onClick: self.onCardFlip, image: image, styling: self.boardStyling, image: image, flipped: flipped[i], cardIndex: i});
 	    });
-	},
-	onStartClick: function() {
-		var images = this.shuffleImages(['walle.jpg', 'walle.jpg', 'eve.jpg', 'john.jpg', 'captain2.jpg', 'mary.jpg']);
-	    var flipped = [false, false, false, false, false, false];
-	    var gameOver = false;
-	    var win = false;
-	    this.setState ({
-	        imagesArray: images,
-	        flipped: flipped,
-	        imagesFlipped: [],
-	        walleCount: 0,
-	        flipCount: 0,
-			wrongFlips: 4,
-			gameOver: gameOver,
-			win: win,
-			won: this.won(win),
-	        gameInfo: this.infoCreation(gameOver),
-	        board: this.boardCreation(images, flipped, win),
-	    });
-	},
-	onCardFlip: function(cardIndex) {
-		if (this.state.gameOver) {
-			return ;
-		}
-		var currentStateFlipped = this.state.flipped;
-		currentStateFlipped[cardIndex] = true;
-		var currentImagesFlipped = this.state.imagesFlipped;
-		currentImagesFlipped[cardIndex] = this.state.imagesArray[cardIndex];
-		var walles = currentImagesFlipped.reduce(function(n, value) {
-			return value == 'walle.jpg' ? n + 1 : n;
-		}, 0);
-		var wrongFlips = currentImagesFlipped.reduce(function(n, value) {
-			return (value !== undefined && value != 'walle.jpg') ? n + 1 : n;
-		}, 0);
-		var flips = currentImagesFlipped.reduce(function(n, value) {
-			return value !== undefined ? n + 1 : n;
-		}, 0);
-		var updatedBoard = this.boardCreation(this.state.imagesArray, currentStateFlipped);
-		if (walles >= 2) {
-			this.setState({
-				win: true,
-				won: this.won(true),
-				gameOver: true,
-			})
-		} else if ((walles == 1 && flips == 5) || (walles == 0 && flips == 4)) {
-			this.setState ({
-				gameOver: true,
-			})
-		}
-		this.setState({
-			flipped: currentStateFlipped,
-			imagesFlipped: currentImagesFlipped,
-			flipCount: flips,
-			walleCount: walles,
-			wrongFlips: 4 - wrongFlips,
-			board: updatedBoard,
-		})
-	},
-	won: function(win) {
-		if (win) {
-			return React.createElement(Win, null);
-		}
 	},
 	getInitialState: function() {
 	    var images = this.shuffleImages(['walle.jpg', 'walle.jpg', 'eve.jpg', 'john.jpg', 'captain2.jpg', 'mary.jpg']);
@@ -155,10 +110,67 @@ var GameBoard = React.createClass({displayName: "GameBoard",
 	        wrongFlips: 4,
 	        gameOver: gameOver,
 	        win: win,
-	        won: this.won(win),
 	        gameInfo: this.infoCreation(gameOver),
-	        board: this.boardCreation(images, flipped),
+	        board: this.boardCreation(images, flipped, win),
+	        
 	    };
+	},
+	onStartClick: function() {
+		var images = this.shuffleImages(['walle.jpg', 'walle.jpg', 'eve.jpg', 'john.jpg', 'captain2.jpg', 'mary.jpg']);
+	    var flipped = [false, false, false, false, false, false];
+	    var gameOver = false;
+	    win = false;
+	    this.setState ({
+	        imagesArray: images,
+	        flipped: flipped,
+	        imagesFlipped: [],
+	        walleCount: 0,
+	        flipCount: 0,
+			wrongFlips: 4,
+			gameOver: gameOver,
+			win: win,
+	        gameInfo: this.infoCreation(gameOver),
+	        board: this.boardCreation(images, flipped, win),
+	    });
+	},
+	onCardFlip: function(cardIndex) {
+		var walles = this.state.walleCount;
+		var flips = this.state.flipCount;
+		if (walles >= 2 || (walles == 1 && flips == 5) || (walles == 0 && flips == 4)) {
+			return ;
+		}
+		var currentStateFlipped = this.state.flipped;
+		currentStateFlipped[cardIndex] = true;
+		var currentImagesFlipped = this.state.imagesFlipped;
+		currentImagesFlipped[cardIndex] = this.state.imagesArray[cardIndex];
+		var walles = currentImagesFlipped.reduce(function(n, value) {
+			return value == 'walle.jpg' ? n + 1 : n;
+		}, 0);
+		var wrongFlips = currentImagesFlipped.reduce(function(n, value) {
+			return (value !== undefined && value != 'walle.jpg') ? n + 1 : n;
+		}, 0);
+		var flips = currentImagesFlipped.reduce(function(n, value) {
+			return value !== undefined ? n + 1 : n;
+		}, 0);
+		var updatedBoard = this.boardCreation(this.state.imagesArray, currentStateFlipped, this.state.win);
+		if (walles >= 2) {
+			this.setState({
+				gameOver: true,
+				win: true,
+			})
+		} else if ((walles == 1 && flips == 5) || (walles==0 && flips == 4)) {
+			this.setState ({
+				gameOver: true,
+			})
+		}
+		this.setState({
+			flipped: currentStateFlipped,
+			imagesFlipped: currentImagesFlipped,
+			flipCount: flips,
+			walleCount: walles,
+			wrongFlips: 4 - wrongFlips,
+			board: updatedBoard,
+		})
 	},
 	render: function() {
 		return React.createElement("div", {className: "game-container"}, 
@@ -172,7 +184,6 @@ var GameBoard = React.createClass({displayName: "GameBoard",
 					)
 				), 
 				React.createElement("div", {className: "game-board"}, 
-					this.state.won, 
 				  	React.createElement("ul", {className: "grid"}, this.state.board)
 				)
 			  );

@@ -60,8 +60,7 @@ ul {
 }
 
 .game-board {
-	margin-left: auto;
-	margin-right: auto;
+	margin-left: 200px;
 	background: transparent;
 	padding: 10px;
 	width: 95%;
@@ -73,12 +72,12 @@ ul {
 .game-card {
 	cursor: pointer;
 	border-radius: 50%;
-	width: 22%;
-	height: 30%;
+	width: 20%;
+	height: 28%;
 	background: 'bababa';
 	background-size: 'cover';
 	opacity: .96;
-	margin: 2% 0 0 3%;
+	margin: 2% 2% 0 3%;
     box-shadow: inset 5px 5px 15px #000;
     border: 1px solid black;
 }
@@ -119,7 +118,7 @@ ul {
 }
 
 button:focus {outline:0;}
-button:hover {opacity: 1.5;}
+button:hover {opacity: 2;}
 button:active { box-shadow: 1px 2px 5px; margin: 7px 6px 5px 126px;}
 
 .x-counter {
@@ -131,8 +130,28 @@ button:active { box-shadow: 1px 2px 5px; margin: 7px 6px 5px 126px;}
 	width: 105px;
 	border-radius: 50%;
 	position: absolute;
-	margin-left: -100px;
+	margin-left: -105px;
 
+}
+
+.win-modal {
+	background: black;
+	opacity: .9;
+	width: 600px;
+	height: 300px;
+	position: absolute;
+	z-index: 1000;
+	border-radius: 15px;
+	border: 1px solid purple;
+	visibility: visible;
+}
+
+.win {
+	font-size: 5em;
+	color: #00FF00;
+	text-align: center;
+	vertical-align: center;
+	opacity: 2;
 }
 
 @import 'reset.css'
