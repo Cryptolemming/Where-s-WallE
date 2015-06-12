@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-'use strict';
+(function(){
 
 var Card = React.createClass({displayName: "Card",
 	onClickHandler: function(evt) {
@@ -180,3 +180,4 @@ var GameBoard = React.createClass({displayName: "GameBoard",
 });
 
 React.render(React.createElement(GameBoard, null), document.getElementById('container'));
+}());
