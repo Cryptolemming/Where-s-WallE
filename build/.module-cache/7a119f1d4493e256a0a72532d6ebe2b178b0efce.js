@@ -18,7 +18,7 @@ var StartGame = React.createClass({displayName: "StartGame",
 	render: function() {
 		var styling = this.props.styling(this.props.gameOver);
 		return (
-			React.createElement("li", {className: "refresh"}, React.createElement("button", {className: "start-button", onClick: this.props.onClick, style: styling}, React.createElement("i", {className: "fa fa-refresh"})))
+			React.createElement("li", {className: "refresh"}, React.createElement("i", {className: "fa fa-refresh", onClick: this.props.onClick, style: styling}))
 		);
 	}
 });
@@ -42,10 +42,16 @@ var GameBoard = React.createClass({displayName: "GameBoard",
 		return newArray;
 	},
 	boardStyling: function(image, flipped) {
-		if (flipped == true) {
+		if (flipped == false) {
+			return {
+				background: '#bababa',
+				opacity: '.96',
+			};
+		} else if (flipped == true) {
 			return {
 				backgroundSize: 'cover',
 				backgroundImage: 'url(src/images/' + image + ')',
+				opacity: '.96',
 			};
 		}
 	},
@@ -53,7 +59,6 @@ var GameBoard = React.createClass({displayName: "GameBoard",
 		gameOver = this.state.gameOver;
 		if (gameOver) {
 			return {
-				opacity: '1',
 				color: '#00ff00',
 			};
 		}
@@ -170,7 +175,6 @@ var GameBoard = React.createClass({displayName: "GameBoard",
 					this.state.won, 
 				  	React.createElement("ul", {className: "grid"}, this.state.board)
 				)
-				
 			  );
 	}
 });

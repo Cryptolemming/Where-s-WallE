@@ -42,7 +42,12 @@ var GameBoard = React.createClass({displayName: "GameBoard",
 		return newArray;
 	},
 	boardStyling: function(image, flipped) {
-		if (flipped == true) {
+		if (flipped == false) {
+			return {
+				background: 'gray',
+				opacity: '.96',
+			};
+		} else if (flipped == true) {
 			return {
 				backgroundSize: 'cover',
 				backgroundImage: 'url(src/images/' + image + ')',
@@ -170,7 +175,6 @@ var GameBoard = React.createClass({displayName: "GameBoard",
 					this.state.won, 
 				  	React.createElement("ul", {className: "grid"}, this.state.board)
 				)
-				
 			  );
 	}
 });

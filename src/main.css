@@ -4,7 +4,7 @@ html, body {
 }
 
 body{
-	background: url('/images/background.jpg') no-repeat;
+	background: url('images/background.jpg') no-repeat;
 	background-size: cover;
 }
 
@@ -13,12 +13,18 @@ ul {
 	list-style-type: none;
 }
 
-.title {
-	color: #a100c1;
-	overflow: hidden;
-	text-align: center;
+a {
+	text-decoration: none;
+}
+
+#title-container {
 	margin-left: auto;
 	margin-right: auto;
+	text-align: center;
+}
+
+.title {
+	color: #a100c1;
 	font-style: bold;
 	font-size: 5em;
     text-shadow: 0 1px 0 #000,
@@ -38,50 +44,53 @@ ul {
 #container {
 	margin-left: auto;
 	margin-right: auto;
-	width: 1250px;
-	height: 850px;
-	background: transparent;
+	width: 1150px;
+	height: 650px;
+	background: transparent
 }
 
 .game-container {
-	width: 85%;
-	height: 70%;
-	background: transparent url('/images/axiom.png') no-repeat center;
+	width: 95%;
+	height: 100%;
+	background: url('images/axiom.png') no-repeat center;
 	margin-left: auto;
 	margin-right: auto;
 }
 .game-info {
-	margin-left: 15%;
-	width: 110%;
+	margin-left: 25%;
+	width: 75%;
 	height: 25%;
 	font-size: 4em;
 	font-style: bold;
 	color: yellow;
+	background: transparent;
 }
 
 .game-board {
 	margin-left: 350px;
-	background: transparent;
 	padding-left: 50px;
-
 	width: 55%;
 	height: 55%;
 	color: yellow;
 	display: inline-block;
-	
+	background: transparent;
 }
 
 .game-card {
 	cursor: pointer;
 	border-radius: 50%;
-	width: 22%;
+	width: 21%;
 	height: 25%;
-	background: 'bababa';
+	background: gray;
 	background-size: 'cover';
 	opacity: .96;
-	margin: 2% 0% 0 3%;
+	margin: 2% 0% 0 4%;
     box-shadow: inset 5px 5px 15px #000;
     border: 1px solid black;
+}
+
+.game-card:hover {
+	background: purple;
 }
 
 .grid > li {
@@ -104,24 +113,21 @@ ul {
 .game-controllers >li:nth-child(4) {
 }
 
-.start-button{
-	background: #00FF00;
-	padding: 15px;
-	opacity: .8;
+button, .start-button{
+	background: transparent;
+	padding: 5px;
+	opacity: .4;
 	font-style: bold;
-	margin: 5px 10px 5px 125px;
-	color: purple;
-	border-radius: 15px;
+	margin: -25px 0px 0px 115px;
+	color: gray;
 	border: 0px;
 	cursor: pointer;
-	box-shadow: 3px 5px 5px purple;
 	float: right;
-	font-size: .4em;
+	font-size: 1.6em;
 }
 
 button:focus {outline:0;}
-button:hover {opacity: 2;}
-button:active { box-shadow: 1px 2px 5px; margin: 7px 6px 5px 126px;}
+button:hover {color: #00ff00; opacity: 1;}
 
 .x-counter {
 	margin-top: 5px;
@@ -139,8 +145,9 @@ button:active { box-shadow: 1px 2px 5px; margin: 7px 6px 5px 126px;}
 
 .win-modal {
 	background: black;
+	margin-top: -25px;
 	opacity: .9;
-	width: 600px;
+	width: 500px;
 	height: 300px;
 	position: absolute;
 	z-index: 1000;
@@ -155,6 +162,27 @@ button:active { box-shadow: 1px 2px 5px; margin: 7px 6px 5px 126px;}
 	text-align: center;
 	vertical-align: center;
 	opacity: 2;
+}
+
+.info {
+	margin-top: -10%;
+}
+
+.about {
+	font-size: 1em;
+	color: white !important;
+	opacity: .4;
+	font-style: italic;
+	float:left;
+	margin-left: 15px;
+}
+
+.about:hover {opacity: .9;}
+
+.copyright {
+	float: right;
+	font-size: .8em;
+	margin-right: 15px;
 }
 
 @import 'reset.css'

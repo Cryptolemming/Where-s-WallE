@@ -170,7 +170,6 @@ var GameBoard = React.createClass({displayName: "GameBoard",
 					this.state.won, 
 				  	React.createElement("ul", {className: "grid"}, this.state.board)
 				)
-				
 			  );
 	}
 });

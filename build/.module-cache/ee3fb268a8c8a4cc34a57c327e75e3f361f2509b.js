@@ -169,8 +169,13 @@ var GameBoard = React.createClass({displayName: "GameBoard",
 				React.createElement("div", {className: "game-board"}, 
 					this.state.won, 
 				  	React.createElement("ul", {className: "grid"}, this.state.board)
-				)
-				
+				), 
+				React.createElement("div", null, 
+				  React.createElement("a", {href: "http://aliayoub.com"}, 
+				    React.createElement("p", {className: "about", target: "_blank"}, "created by Ali Ayoub")
+				  ), 
+				  React.createElement("p", {className: "copyright"}, "All artwork and the name Wall-E are property of ", React.createElement("a", {href: "http://www.pixar.com/"}, "Pixar"))
+			  	)
 			  );
 	}
 });

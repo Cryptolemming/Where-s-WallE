@@ -169,8 +169,12 @@ var GameBoard = React.createClass({displayName: "GameBoard",
 				React.createElement("div", {className: "game-board"}, 
 					this.state.won, 
 				  	React.createElement("ul", {className: "grid"}, this.state.board)
+				), 
+				React.createElement("div", {className: "about"}, 
+				  React.createElement("a", {href: "http://aliayoub.com"}, 
+				    React.createElement("p", null, "created by Ali Ayoub")
+				  )
 				)
-				
 			  );
 	}
 });

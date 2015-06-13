@@ -18,7 +18,7 @@ var StartGame = React.createClass({
 	render: function() {
 		var styling = this.props.styling(this.props.gameOver);
 		return (
-			<button className='start-button' onClick={this.props.onClick} style={styling}>NEW GAME</button>
+			<li className='refresh'><button className='start-button' onClick={this.props.onClick} style={styling}><i className='fa fa-refresh'></i></button></li>
 		);
 	}
 });
@@ -42,16 +42,10 @@ var GameBoard = React.createClass({
 		return newArray;
 	},
 	boardStyling: function(image, flipped) {
-		if (flipped == false) {
-			return {
-				background: '#bababa',
-				opacity: '.96',
-			};
-		} else if (flipped == true) {
+		if (flipped == true) {
 			return {
 				backgroundSize: 'cover',
-				backgroundImage: 'url(images/' + image + ')',
-				opacity: '.96',
+				backgroundImage: 'url(src/images/' + image + ')',
 			};
 		}
 	},
@@ -59,7 +53,8 @@ var GameBoard = React.createClass({
 		gameOver = this.state.gameOver;
 		if (gameOver) {
 			return {
-				opacity: '2',
+				opacity: '1',
+				color: '#00ff00',
 			};
 		}
 	},
@@ -164,17 +159,18 @@ var GameBoard = React.createClass({
 		return <div className='game-container'>
 				<div className='game-info'>
 					<ul className='game-counters'>
-						<li><img className='x-counter' src='images/redx.png' /></li>
+						<li><img className='x-counter' src='src/images/redx.png' /></li>
 						<li>{this.state.wrongFlips}</li>
-						<li><img className='walle-counter' src='images/walle.jpg' /></li>
+						<li><img className='walle-counter' src='src/images/walle.jpg' /></li>
 						<li>{this.state.walleCount}/2</li>
-						<li>{this.state.gameInfo}</li>
-					</ul>
+						{this.state.gameInfo}
+				</ul>
 				</div>
 				<div className='game-board'>
 					{this.state.won}
 				  	<ul className='grid'>{this.state.board}</ul>
 				</div>
+				
 			  </div>;
 	}
 });
