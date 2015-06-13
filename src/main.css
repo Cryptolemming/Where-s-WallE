@@ -52,7 +52,7 @@ a {
 	background: transparent;
 }
 
-body @media screen and (min-height: 1500px) > #container {
+body @media screen and (max-width: 1800px) > #container {
 	margin-top: 25%;
 }
 
