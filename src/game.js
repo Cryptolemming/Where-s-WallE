@@ -170,14 +170,6 @@ var GameBoard = React.createClass({
 					{this.state.won}
 				  	<ul className='grid'>{this.state.board}</ul>
 				</div>
-				<div className='info'>
-				  <a href='http://aliayoub.com'>
-				    <p className='about' target='_blank'>created by Ali Ayoub</p>
-				  </a>
-				  <p className='copyright'>All artwork and the name Wall-E are property of 
-				    <a href='http://www.pixar.com/'> Pixar</a>
-				  </p>
-				</div>
 			  </div>;
 	}
 });
