@@ -173,13 +173,12 @@ button:hover {color: #00ff00; opacity: 1;}
 
 .info {
 	vertical-align: bottom;
-	padding: 5%;
 	background: transparent;
 }
 
 .about {
 	font-size: 1em;
-	color: white !important;
+	color: white;
 	opacity: .4;
 	font-style: italic;
 	float:left;
