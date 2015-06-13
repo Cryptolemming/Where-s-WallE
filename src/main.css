@@ -173,7 +173,7 @@ button:hover {color: #00ff00; opacity: 1;}
 
 .info {
 	vertical-align: bottom;
-	margin-top: -10%;
+	padding: 5%;
 	background: transparent;
 }
 
@@ -183,7 +183,6 @@ button:hover {color: #00ff00; opacity: 1;}
 	opacity: .4;
 	font-style: italic;
 	float:left;
-	margin-left: 15px;
 }
 
 .about:hover {opacity: .9;}
@@ -191,11 +190,10 @@ button:hover {color: #00ff00; opacity: 1;}
 .copyright {
 	float: right;
 	font-size: .8em;
-	margin-right: 15px;
-	opacity: .8;
+	opacity: .6;
 }
 
-.copyright:a {
+.pixar {
 	color: purple;
 }
 
