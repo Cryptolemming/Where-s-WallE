@@ -23,6 +23,7 @@ a {
 	margin-right: auto;
 	text-align: center;
 	white-space: nowrap;
+	background: transparent;
 }
 
 .title {
@@ -174,6 +175,7 @@ button:hover {color: #00ff00; opacity: 1;}
 .info {
 	vertical-align: bottom;
 	margin-top: -10%;
+	background: transparent;
 }
 
 .about {
