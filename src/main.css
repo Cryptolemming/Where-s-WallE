@@ -47,7 +47,8 @@ a {
 	margin-right: auto;
 	width: 1150px;
 	height: 650px;
-	background: transparent
+	background: transparent;
+	vertical-align: center;
 }
 
 .game-container {
@@ -184,6 +185,10 @@ button:hover {color: #00ff00; opacity: 1;}
 	float: right;
 	font-size: .8em;
 	margin-right: 15px;
+}
+
+.copyright:a {
+	color: purple;
 }
 
 @import 'reset.css'
