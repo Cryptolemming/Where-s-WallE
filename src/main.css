@@ -50,10 +50,9 @@ a {
 	width: 1150px;
 	height: 650px;
 	background: transparent;
-	vertical-align: center;
 }
 
-#container:@media screen and (min-height: 1500px) {
+body:@media screen and (min-height: 1500px) > #container {
 	margin-top: 25%;
 }
 
