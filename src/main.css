@@ -146,7 +146,7 @@ button:hover {color: #00ff00; opacity: 1;}
 .win-modal {
 	background: black;
 	margin-top: -25px;
-	opacity: .9;
+	opacity: .7;
 	width: 500px;
 	height: 300px;
 	position: absolute;
