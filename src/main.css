@@ -52,10 +52,6 @@ a {
 	background: transparent;
 }
 
-body @media screen and (max-width: 1800px) > #container {
-	margin-top: 25%;
-}
-
 .game-container {
 	width: 95%;
 	height: 100%;
@@ -110,14 +106,16 @@ body @media screen and (max-width: 1800px) > #container {
 	margin: 5px 10px 0 5px;
 }
 
+.game-counters >li:first-child {
+	margin-top: -20px;
+	font-size: 1.65em;
+	color: red;
+	font-style: bold;
+	font-family: helvetica;
+}
+
 .game-counters >li:nth-child(2) {
 	margin-right: 225px;
-}
-
-.game-controllers >li:nth-child(3) {
-}
-
-.game-controllers >li:nth-child(4) {
 }
 
 button, .start-button{
@@ -135,11 +133,6 @@ button, .start-button{
 
 button:focus {outline:0;}
 button:hover {color: #00ff00; opacity: 1;}
-
-.x-counter {
-	margin-top: 5px;
-	width: 80px;
-}
 
 .walle-counter {
 	width: 90px;
