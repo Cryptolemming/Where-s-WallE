@@ -194,12 +194,12 @@ button:hover {color: #00ff00; opacity: 1;}
 
 .pixar {
 	color: purple;
+	font-size: .8;
 }
 
-.pixar &:hover {
+.pixar:hover {
 	color: white;
 	opacity: 2;
-	font-size: .8;
 }
 
 @import 'reset.css'
