@@ -1,232 +1,102 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 'use strict';
 
-// individual cards
+const CARDS = ['k3xkgdci3h9mlnf/walle.jpg?dl=0', 'k3xkgdci3h9mlnf/walle.jpg?dl=0', '1ll4rd0q28y7is8/eve.jpg?dl=0', '7sbiokkeq2hnaze/john.jpg?dl=0', '93ltebnju2vd5ns/captain2.jpg?dl=0', 'uho6nbflui260ca/mary.jpg?dl=0'];
 
 var Card = React.createClass({
-	onClickHandler: function(evt) {
-		return this.props.onClick(this.props.cardIndex)
+	// takes in an image, flipped truthiness, and onPress flipped function as props
+	propTypes: {
+		image: React.PropTypes.string.isRequired,
+		flipped: React.PropTypes.bool.isRequired,
+		onPress: React.PropTypes.func.isRequired,
 	},
+
 	render: function() {
-		var styling = this.props.styling(this.props.image, this.props.flipped);
-		return (
-			<li className='game-card' onClick={this.onClickHandler} style={styling}></li>
+		var flipStyling = this.props.flipped ? styles.cardFlipped : styles.card;
+
+		return(
+			<div onPress={this.props.onPress()}>
+				<img
+					className='game-card'
+					source='https://dl.dropboxusercontent.com/s/' + this.props.image />
+			</div>
 		);
 	}
 });
 
-// refresh button
-
-var StartGame = React.createClass({
-	render: function() {
-		var styling = this.props.styling(this.props.gameOver);
-		return (
-			<li className='refresh'><button className='start-button' onClick={this.props.onClick} style={styling}><i className='fa fa-refresh'></i></button></li>
-		);
+/**
+var newGameButton = React.createClass({
+	propTypes: {
+		active: React.PropTypes.bool.isRequired,
 	}
 });
 
-// you win modal
-
-var Win = React.createClass({
-	render: function() {
-		return (
-			<div className='win-modal'>
-				<p className='win'>YOU WIN!</p>
-		  	</div>
-		);
+var winModal = React.createClass({
+	propTypes: {
+		render: React.PropTypes.bool.isRequired,
 	}
 });
-
-// parent component - game
+**/
 
 var Game = React.createClass({
-
-	// shuffle the card images
-
-	shuffleImages: function(array) {
-		var newArray = [];
-		for (var i = 0; i < 6; i += 1) {
-			newArray.push(array.splice(Math.floor(Math.random() * array.length), 1));
-		}
-		return newArray;
+	// takes the images array as a prop from the main component
+	propTypes: {
+		images: React.PropTypes.array.isRequired,
 	},
 
-	// styling to display the card image when flipped
+	// shuffles the images for the cards
+	_shuffleImages(images) {
+		var currentIndex = images.length, temporaryValue, randomIndex;
 
-	boardStyling: function(image, flipped) {
-		if (flipped == true) {
-			return {
-				backgroundSize: 'cover',
-				backgroundImage: 'url(https://dl.dropboxusercontent.com/s/' + image + ')',
-			};
-		}
-	},
+		while (currentIndex !== 0) {
+			randomIndex = Math.floor(Math.random() * images.length);
+			currentIndex -= 1;
 
-	// styling to change color of refresh button when game is over
-
-	gameOverStyling: function(gameOver) {
-		gameOver = this.state.gameOver;
-		if (gameOver) {
-			return {
-				opacity: '1',
-				color: '#00ff00',
-			};
-		}
-	},
-
-	// calling the refresh button component on game over
-
-	infoCreation: function(gameOver) {
-		if (this.state !== null) {
-			gameOver = this.state.gameOver;
-		} else {
-			gameOver = false;
-		}
-		return <StartGame onClick={this.onStartClick} styling={this.gameOverStyling} gameOver={gameOver} />;
-	},
-
-	// calling the card component and passing it the shuffled images to create the game board
-
-	boardCreation: function (images, flipped) {
-	    images = images || this.state.imagesArray;
-	    flipped = flipped || this.state.flipped;
-	    var self = this;
-	    return images.map(function (image, i) {
-	         return <Card key={i} onClick={self.onCardFlip} image={image} styling={self.boardStyling} image={image} flipped={flipped[i]} cardIndex={i} />;
-	    });
-	},
-
-	// changing state when refresh button clicked
-
-	onStartClick: function() {
-		var images = this.shuffleImages(['k3xkgdci3h9mlnf/walle.jpg?dl=0', 'k3xkgdci3h9mlnf/walle.jpg?dl=0', '1ll4rd0q28y7is8/eve.jpg?dl=0', '7sbiokkeq2hnaze/john.jpg?dl=0', '93ltebnju2vd5ns/captain2.jpg?dl=0', 'uho6nbflui260ca/mary.jpg?dl=0']);
-	    var flipped = [false, false, false, false, false, false];
-	    var gameOver = false;
-	    var win = false;
-	    this.setState ({
-	        imagesArray: images,
-	        flipped: flipped,
-	        imagesFlipped: [],
-	        walleCount: 0,
-	        flipCount: 0,
-			wrongFlips: 4,
-			gameOver: gameOver,
-			win: win,
-			won: this.won(win),
-	        gameInfo: this.infoCreation(gameOver),
-	        board: this.boardCreation(images, flipped, win),
-	    });
-	},
-
-	// changing state and declaring behavior on different game over scenarios when a card is flipped
-
-	onCardFlip: function(cardIndex) {
-
-		// if game is over do not allow more card flipping
-
-		if (this.state.gameOver) {
-			return ;
+			// swap a random value with a value at the back
+			temporaryValue = images[currentIndex];
+			images[currentIndex] = images[randomIndex];
+			images[randomIndex] = temporaryValue;
 		}
 
-		// temporary values to work with state
+		return images;
+	},
 
-		var currentStateFlipped = this.state.flipped;
-		currentStateFlipped[cardIndex] = true;
-		var currentImagesFlipped = this.state.imagesFlipped;
-		currentImagesFlipped[cardIndex] = this.state.imagesArray[cardIndex];
+	// the initial state is that initial card data object
+	getInitialState() {
+		var startingImages = this._shuffleImages(this.props.images);
+		var flippedValues = [false, false, false, false, false, false];
+		console.log(startingImages);
+		return {
+			shuffledCards: startingImages,
+			flippedValues: flippedValues,
+			flippedImages: [],
+		};
+	},
 
-		// counting flips for walles, not walles, and general
-
-		var walles = currentImagesFlipped.reduce(function(n, value) {
-			return value == 'k3xkgdci3h9mlnf/walle.jpg?dl=0' ? n + 1 : n;
-		}, 0);
-		var wrongFlips = currentImagesFlipped.reduce(function(n, value) {
-			return (value !== undefined && value != 'k3xkgdci3h9mlnf/walle.jpg?dl=0') ? n + 1 : n;
-		}, 0);
-		var flips = currentImagesFlipped.reduce(function(n, value) {
-			return value !== undefined ? n + 1 : n;
-		}, 0);
-		var updatedBoard = this.boardCreation(this.state.imagesArray, currentStateFlipped);
-
-		// win scenario - 2 walles flipped
-
-		if (walles >= 2) {
-			this.setState({
-				win: true,
-				won: this.won(true),
-				gameOver: true,
-			})
-
-		// other game over scenarios
-
-		} else if ((walles == 1 && flips == 5) || (walles == 0 && flips == 4)) {
-			this.setState ({
-				gameOver: true,
-			})
-		}
+	// when a card is pressed, update state truthiness for the card being flipped
+	_onPress(image, index) {
+		var updateFlippedValues = this.state.flippedValues;
+		updateFlippedValues[index] = true;
+		var updateFlippedImages = this.state.flippedImages;
+		updateFlippedImages[index] = this.state.shuffledCards[index];
 		this.setState({
-			flipped: currentStateFlipped,
-			imagesFlipped: currentImagesFlipped,
-			flipCount: flips,
-			walleCount: walles,
-			wrongFlips: 4 - wrongFlips,
-			board: updatedBoard,
-		})
-	},
-
-	// calling win component to render modal
-
-	won: function(win) {
-		if (win) {
-			return <Win />;
-		}
-	},
-
-	getInitialState: function() {
-	    var images = this.shuffleImages(['k3xkgdci3h9mlnf/walle.jpg?dl=0', 'k3xkgdci3h9mlnf/walle.jpg?dl=0', '1ll4rd0q28y7is8/eve.jpg?dl=0', '7sbiokkeq2hnaze/john.jpg?dl=0', '93ltebnju2vd5ns/captain2.jpg?dl=0', 'uho6nbflui260ca/mary.jpg?dl=0']);
-	    var flipped = [false, false, false, false, false, false];
-	    var gameOver = false;
-	    var win = false;
-	    return {
-	        imagesArray: images,
-	        flipped: flipped,
-	        imagesFlipped: [],
-	        walleCount: 0,
-	        flipCount: 0,
-	        wrongFlips: 4,
-	        gameOver: gameOver,
-	        win: win,
-	        won: this.won(win),
-	        gameInfo: this.infoCreation(gameOver),
-	        board: this.boardCreation(images, flipped),
-	    };
+			flippedValues: updateFlippedValues,
+			flippedImages: updateFlippedImages,
+		});
 	},
 
 	render: function() {
-		return <div className='game-container'>
-				<div className='game-info'>
-					<ul className='game-counters'>
-						<li className='x-counter'>X</li>
-						<li>{this.state.wrongFlips}</li>
-						<li><img className='walle-counter' src='https://dl.dropboxusercontent.com/s/k3xkgdci3h9mlnf/walle.jpg?dl=0' /></li>
-						<li>{this.state.walleCount}/2</li>
-						{this.state.gameInfo}
-				</ul>
-				</div>
-				<div className='game-board'>
-					{this.state.won}
-				  	<ul className='grid'>{this.state.board}</ul>
-				</div>
-				<div className='info'>
-				  <a href='http://aliayoub.com'>
-				    <p className='about' target='_blank'>created by Ali Ayoub</p>
-				  </a>
-				  <p className='copyright'>All artwork and the name Wall-E are property of 
-				    <a href='http://www.pixar.com/' className='pixar'> Pixar</a>
-				  </p>
-				</div>
-			  </div>;
+		var board = this.state.shuffledCards.map((card, index) => {
+			return <Card image={card} key={index} onPress={this._onPress} flipped={this.state.flippedValues[index]} />
+		});
+		return(
+			<div style={styles.boardContainer}>
+				{board}
+			</div>
+		);
 	}
 });
 
-React.render(<Game />, document.getElementById('container'));
+ReactDOM.render(<Game images=CARDS />, document.getElementById('container'));
