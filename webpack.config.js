@@ -3,30 +3,27 @@ var path = require('path');
 
 module.exports = {
 	devtool: 'eval',
-	entry: './index.js',
+	entry: './index',
 	output: {
 		path: path.join(__dirname, './build'),
-		filename: 'build.js',
-	},
-	resolve: {
-		extensions: ['', '.js', '.es6', '.jsx']
+		filename: 'index',
 	},
 	module: {
 		loaders: [
 			{ 
-				test: /\.js?$/,
-				loader: ['babel'],
+				test: /\.jsx?$/,
+				loader: 'babel',
 				exclude: /node_modules/,
 				query: {
-					presets: ['es2015', 'react']
+					presets: ['stage-0', 'es2015', 'react']
 				}
 			},
 			{
-				test: /\.js$/,
+				test: /\.js?$/,
 				loader: 'babel-loader',
 				exclude: /node_modules/,
 				query: {
-					presets: ['es2015', 'react']
+					presets: ['stage-0', 'es2015', 'react']
 				}
 			},
 			{
@@ -37,7 +34,10 @@ module.exports = {
 				test: /\.json$/,
 				loader: 'json-loader'
 			}
-		]
+		],
+		resolve: {
+			extensions: ['', '.js', '.es6', '.jsx']
+		},
 	},
 	plugins: [
 		new webpack.NoErrorsPlugin(),

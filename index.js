@@ -20,7 +20,7 @@ var Card = React.createClass({
 			<div onPress={this.props.onPress()}>
 				<img
 					className='game-card'
-					source='https://dl.dropboxusercontent.com/s/' + this.props.image />
+					src='https://dl.dropboxusercontent.com/s/' />
 			</div>
 		);
 	}
@@ -99,4 +99,4 @@ var Game = React.createClass({
 	}
 });
 
-ReactDOM.render(<Game images=CARDS />, document.getElementById('container'));
+ReactDOM.render(<Game images={CARDS} />, document.getElementById('container'));
