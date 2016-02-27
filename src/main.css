@@ -1,3 +1,5 @@
+@import 'reset.css'
+
 html, body {
  margin: 0;
  color: white;
@@ -79,26 +81,8 @@ a {
 	background: transparent;
 }
 
-.game-card {
-	cursor: pointer;
-	border-radius: 50%;
-	width: 21%;
-	height: 23%;
-	background: gray;
-	background-size: 'cover';
-	opacity: .96;
-	margin: 3% 0% 0 4%;
-    box-shadow: inset 5px 5px 15px #000;
-    border: 1px solid black;
-}
-
-.game-card:hover {
-	background: purple;
-}
-
 .grid > li {
 	float: left;
-
 }
 
 .game-counters > li {
@@ -194,5 +178,3 @@ button:hover {color: #00ff00; opacity: 1;}
 	color: white;
 	opacity: 2;
 }
-
-@import 'reset.css'

@@ -1,30 +1,55 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Radium from 'radium';
 
 'use strict';
 
-const CARDS = ['k3xkgdci3h9mlnf/walle.jpg?dl=0', 'k3xkgdci3h9mlnf/walle.jpg?dl=0', '1ll4rd0q28y7is8/eve.jpg?dl=0', '7sbiokkeq2hnaze/john.jpg?dl=0', '93ltebnju2vd5ns/captain2.jpg?dl=0', 'uho6nbflui260ca/mary.jpg?dl=0'];
+var styles = {
+	card: {
+		cursor: 'pointer',
+		borderRadius: '50%',
+		width: '21%',
+		height: '23%',
+		opacity: '.96',
+		marginLeft: '3%',
+		marginBottom: '4%',
+	    boxShadow: 'inset 5px 5px 15px #000',
+	    border: '1px solid black',
+	    ':hover': {
+	    	background: 'purple',
+	    }
+	}
+};
 
-var Card = React.createClass({
+const CARDS = ['k3xkgdci3h9mlnf/walle.jpg?dl=0', 'epmgt0g9on02unj/walle2.jpg?dl=0', '1ll4rd0q28y7is8/eve.jpg?dl=0', '7sbiokkeq2hnaze/john.jpg?dl=0', '93ltebnju2vd5ns/captain2.jpg?dl=0', 'uho6nbflui260ca/mary.jpg?dl=0'];
+
+var Card = Radium(React.createClass({
 	// takes in an image, flipped truthiness, and onPress flipped function as props
 	propTypes: {
 		image: React.PropTypes.string.isRequired,
 		flipped: React.PropTypes.bool.isRequired,
-		onPress: React.PropTypes.func.isRequired,
+		onClick: React.PropTypes.func.isRequired,
+	},
+
+	_onClickHandler: function() {
+		this.props.onClick(this.props.image)
 	},
 
 	render: function() {
-		var flipStyling = this.props.flipped ? styles.cardFlipped : styles.card;
+		var styleFlipped
+			= this.props.flipped
+			? 'url(https://dl.dropboxusercontent.com/s/' + this.props.image + ')'
+			: 'gray';
 
 		return(
-			<div onPress={this.props.onPress()}>
-				<img
+				<li
+					onClick={this._onClickHandler}
 					className='game-card'
-					src='https://dl.dropboxusercontent.com/s/' />
-			</div>
+					style={[styles.card, {background: styleFlipped}]}>
+				</li>
 		);
 	}
-});
+}));
 
 /**
 var newGameButton = React.createClass({
@@ -40,7 +65,7 @@ var winModal = React.createClass({
 });
 **/
 
-var Game = React.createClass({
+var Game = Radium(React.createClass({
 	// takes the images array as a prop from the main component
 	propTypes: {
 		images: React.PropTypes.array.isRequired,
@@ -76,11 +101,13 @@ var Game = React.createClass({
 	},
 
 	// when a card is pressed, update state truthiness for the card being flipped
-	_onPress(image, index) {
+	_onClick(image) {
+		var cardIndex = this.state.shuffledCards.indexOf(image);
+
 		var updateFlippedValues = this.state.flippedValues;
-		updateFlippedValues[index] = true;
+		updateFlippedValues[cardIndex] = true;
 		var updateFlippedImages = this.state.flippedImages;
-		updateFlippedImages[index] = this.state.shuffledCards[index];
+		updateFlippedImages[cardIndex] = this.state.shuffledCards[cardIndex];
 		this.setState({
 			flippedValues: updateFlippedValues,
 			flippedImages: updateFlippedImages,
@@ -89,14 +116,19 @@ var Game = React.createClass({
 
 	render: function() {
 		var board = this.state.shuffledCards.map((card, index) => {
-			return <Card image={card} key={index} onPress={this._onPress} flipped={this.state.flippedValues[index]} />
+			return <Card image={card} key={card} onClick={this._onClick} flipped={this.state.flippedValues[index]} />
 		});
 		return(
-			<div style={styles.boardContainer}>
-				{board}
+			<div className='game-container'>
+				<div className='game-board'>
+					<ul clasName='grid'>
+						{board}
+						{console.log(this.state.flippedValues, this.state.flippedImages)}
+					</ul>
+				</div>
 			</div>
 		);
 	}
-});
+}));
 
 ReactDOM.render(<Game images={CARDS} />, document.getElementById('container'));
