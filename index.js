@@ -4,24 +4,26 @@ import Radium from 'radium';
 
 'use strict';
 
+const CARDS = ['k3xkgdci3h9mlnf/walle.jpg?dl=0', 'epmgt0g9on02unj/walle2.jpg?dl=0', '1ll4rd0q28y7is8/eve.jpg?dl=0', '7sbiokkeq2hnaze/john.jpg?dl=0', '93ltebnju2vd5ns/captain2.jpg?dl=0', 'uho6nbflui260ca/mary.jpg?dl=0'];
+
 var styles = {
 	card: {
 		cursor: 'pointer',
+		float: 'left',
 		borderRadius: '50%',
 		width: '21%',
 		height: '23%',
 		opacity: '.96',
-		marginLeft: '3%',
+		marginLeft: '4%',
 		marginBottom: '4%',
+		marginTop: '2%',
 	    boxShadow: 'inset 5px 5px 15px #000',
 	    border: '1px solid black',
 	    ':hover': {
-	    	background: 'purple',
+	    	backgroundColor: 'purple',
 	    }
 	}
 };
-
-const CARDS = ['k3xkgdci3h9mlnf/walle.jpg?dl=0', 'epmgt0g9on02unj/walle2.jpg?dl=0', '1ll4rd0q28y7is8/eve.jpg?dl=0', '7sbiokkeq2hnaze/john.jpg?dl=0', '93ltebnju2vd5ns/captain2.jpg?dl=0', 'uho6nbflui260ca/mary.jpg?dl=0'];
 
 var Card = Radium(React.createClass({
 	// takes in an image, flipped truthiness, and onPress flipped function as props
@@ -38,14 +40,14 @@ var Card = Radium(React.createClass({
 	render: function() {
 		var styleFlipped
 			= this.props.flipped
-			? 'url(https://dl.dropboxusercontent.com/s/' + this.props.image + ')'
-			: 'gray';
+			? {backgroundImage: 'url(https://dl.dropboxusercontent.com/s/' + this.props.image + ')',
+			   backgroundSize: 'cover'}
+			: {backgroundColor: 'gray'};
 
 		return(
 				<li
 					onClick={this._onClickHandler}
-					className='game-card'
-					style={[styles.card, {background: styleFlipped}]}>
+					style={[styles.card, styleFlipped]}>
 				</li>
 		);
 	}
@@ -120,11 +122,28 @@ var Game = Radium(React.createClass({
 		});
 		return(
 			<div className='game-container'>
+				<div className='game-info'>
+					<ul className='game-counters'>
+						<li className='x-counter'>X</li>
+						<li></li>
+						<li><img className='walle-counter' src='https://dl.dropboxusercontent.com/s/k3xkgdci3h9mlnf/walle.jpg?dl=0' /></li>
+						<li></li>
+						
+					</ul>
+				</div>
 				<div className='game-board'>
 					<ul clasName='grid'>
 						{board}
 						{console.log(this.state.flippedValues, this.state.flippedImages)}
 					</ul>
+				</div>
+				<div className='info'>
+					<a href='http://aliayoub.com'>
+						<p className='about' target='_blank'>created by Ali Ayoub</p>
+					</a>
+					<p className='copyright'>All artwork and the name Wall-E are property of 
+						<a href='http://www.pixar.com/' className='pixar'> Pixar</a>
+					</p>
 				</div>
 			</div>
 		);
