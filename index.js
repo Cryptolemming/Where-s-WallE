@@ -90,30 +90,45 @@ var Game = Radium(React.createClass({
 		return images;
 	},
 
+	_startingImages() {
+		return this._shuffleImages(this.props.images);
+	},
+
 	// the initial state is that initial card data object
 	getInitialState() {
-		var startingImages = this._shuffleImages(this.props.images);
-		var flippedValues = [false, false, false, false, false, false];
-		console.log(startingImages);
 		return {
-			shuffledCards: startingImages,
-			flippedValues: flippedValues,
+			shuffledCards: this._startingImages(),
+			flippedValues: [false, false, false, false, false, false],
 			flippedImages: [],
 		};
 	},
 
-	// when a card is pressed, update state truthiness for the card being flipped
-	_onClick(image) {
-		var cardIndex = this.state.shuffledCards.indexOf(image);
+	_cardIndex(image) {
+		return this.state.shuffledCards.indexOf(image);
+	},
 
-		var updateFlippedValues = this.state.flippedValues;
-		updateFlippedValues[cardIndex] = true;
-		var updateFlippedImages = this.state.flippedImages;
-		updateFlippedImages[cardIndex] = this.state.shuffledCards[cardIndex];
+	_updateFlippedValues(image) {
+		var emptyValues = [];
+		var updateFlippedValues = emptyValues.concat(this.state.flippedValues);
+			updateFlippedValues[this._cardIndex(image)] = true;
 		this.setState({
 			flippedValues: updateFlippedValues,
+		})
+	},
+
+	_updateFlippedImages(image) {
+		var emptyImages = [];
+		var updateFlippedImages = emptyImages.concat(this.state.flippedImages);
+			updateFlippedImages[this._cardIndex(image)] = this.state.shuffledCards[this._cardIndex(image)];
+		this.setState({
 			flippedImages: updateFlippedImages,
-		});
+		})
+	},
+
+	// when a card is pressed, update state truthiness for the card being flipped
+	_onClick(image) {
+		this._updateFlippedValues(image);
+		this._updateFlippedImages(image);
 	},
 
 	render: function() {
@@ -128,7 +143,6 @@ var Game = Radium(React.createClass({
 						<li></li>
 						<li><img className='walle-counter' src='https://dl.dropboxusercontent.com/s/k3xkgdci3h9mlnf/walle.jpg?dl=0' /></li>
 						<li></li>
-						
 					</ul>
 				</div>
 				<div className='game-board'>
