@@ -45,10 +45,10 @@ var Card = Radium(React.createClass({
 			: {backgroundColor: 'gray'};
 
 		return(
-				<li
-					onClick={this._onClickHandler}
-					style={[styles.card, styleFlipped]}>
-				</li>
+			<li
+				onClick={this._onClickHandler}
+				style={[styles.card, styleFlipped]}>
+			</li>
 		);
 	}
 }));
@@ -110,6 +110,10 @@ var Game = Radium(React.createClass({
 		return this.state.shuffledCards.indexOf(image);
 	},
 
+	_cardName(image) {
+		return this.state.shuffledCards[this._cardIndex(image)];
+	},
+
 	_updateFlippedValues(image) {
 		var emptyValues = [];
 		var updateFlippedValues = emptyValues.concat(this.state.flippedValues);
@@ -122,23 +126,30 @@ var Game = Radium(React.createClass({
 	_updateFlippedImages(image) {
 		var emptyImages = [];
 		var updateFlippedImages = emptyImages.concat(this.state.flippedImages);
-			updateFlippedImages[this._cardIndex(image)] = this.state.shuffledCards[this._cardIndex(image)];
+			updateFlippedImages[this._cardIndex(image)] = this._cardName(image);
 		this.setState({
 			flippedImages: updateFlippedImages,
 		})
 	},
 
 	_onClick(image) {
-		this._updateFlippedValues(image);
-		this._updateFlippedImages(image);
-		this._walleCheck(image);
+		this._gameOverCheck(image);
+		if(this.state.gameOver) {
+			return;
+		} else {
+			if(!this.state.flippedValues[this._cardIndex(image)]) {
+				this._updateFlippedValues(image);
+				this._updateFlippedImages(image);
+				this._walleCount(image);
+				this._countErrors(image);
+			}
+		}
 	},
 
-	_walleCheck(image) {
-		var newFlipped = this.state.shuffledCards[this._cardIndex(image)];
+	_walleCount(image) {
 		var count = 0;
-		if(newFlipped === 'k3xkgdci3h9mlnf/walle.jpg?dl=0' ||
-		   newFlipped === 'epmgt0g9on02unj/walle2.jpg?dl=0') {
+		if(this._cardName(image) === 'k3xkgdci3h9mlnf/walle.jpg?dl=0' ||
+		   this._cardName(image) ==='epmgt0g9on02unj/walle2.jpg?dl=0') {
 			count += 1
 		} 
 		this.setState({
@@ -146,16 +157,42 @@ var Game = Radium(React.createClass({
 		});
 	},
 
-	_countErrors() {
-
+	_countErrors(image) {
+		var count = 0;
+		if(this._cardName(image) !== 'k3xkgdci3h9mlnf/walle.jpg?dl=0' && 
+		   this._cardName(image) !== 'epmgt0g9on02unj/walle2.jpg?dl=0') {
+			count += 1
+		} 
+		this.setState({
+			errors: this.state.errors + count,
+		});
 	},
 
-	_gameOverWin() {
-
+	_gameOverCheck(image) {
+		if (this.state.walles === 1 || this.state.errors === 3) {
+			this._gameOverWin(image);
+			this._gameOverLose(image);
+		}
 	},
 
-	_gameOverLose() {
+	_gameOverWin(image) {
+		if (this.state.walles === 1 && 
+			this._cardName(image) === 'k3xkgdci3h9mlnf/walle.jpg?dl=0' || 
+			this._cardName(image) === 'epmgt0g9on02unj/walle2.jpg?dl=0') {
+			this.setState({
+				gameOver: true
+			})
+		}
+	},
 
+	_gameOverLose(image) {
+		if (this.state.errors === 3 && 
+			this._cardName(image) !== 'k3xkgdci3h9mlnf/walle.jpg?dl=0' && 
+			this._cardName(image) !== 'epmgt0g9on02unj/walle2.jpg?dl=0') {
+			this.setState({
+				gameOver: true
+			})
+		}
 	},
 
 	render: function() {
@@ -168,15 +205,16 @@ var Game = Radium(React.createClass({
 				<div className='game-info'>
 					<ul className='game-counters'>
 						<li className='x-counter'>X</li>
-						<li></li>
+						<li>{this.state.errors}</li>
 						<li><img className='walle-counter' src='https://dl.dropboxusercontent.com/s/k3xkgdci3h9mlnf/walle.jpg?dl=0' /></li>
-						<li></li>
+						<li>{this.state.walles}</li>
+						<li><button><i className='fa fa-refresh'></i></button></li>
+						{console.log(this.state.gameOver)}
 					</ul>
 				</div>
 				<div className='game-board'>
 					<ul clasName='grid'>
 						{board}
-						{console.log(this.state.flippedValues, this.state.flippedImages, this.state.walles)}
 					</ul>
 				</div>
 				<div className='info'>
