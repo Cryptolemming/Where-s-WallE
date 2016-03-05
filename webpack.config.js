@@ -3,7 +3,10 @@ var path = require('path');
 
 module.exports = {
 	devtool: 'eval',
-	entry: './index.js',
+	entry: {
+		path: path.join(__dirname, './Components/App'),
+		filename: './Components/App/index.js',
+	},
 	output: {
 		path: path.join(__dirname, './build'),
 		filename: 'index.js',

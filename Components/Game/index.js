@@ -1,59 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Radium from 'radium';
+import {Card} from '../Card/index.js';
+import {NewGameButton} from '../NewGameButton/index.js';
+import {WinModal} from '../WinModal/index.js';
 
 'use strict';
 
-const CARDS = ['k3xkgdci3h9mlnf/walle.jpg?dl=0', 'epmgt0g9on02unj/walle2.jpg?dl=0', '1ll4rd0q28y7is8/eve.jpg?dl=0', '7sbiokkeq2hnaze/john.jpg?dl=0', '93ltebnju2vd5ns/captain2.jpg?dl=0', 'uho6nbflui260ca/mary.jpg?dl=0'];
-
 var styles = {
-	card: {
-		cursor: 'pointer',
-		float: 'left',
-		borderRadius: '50%',
-		width: '21%',
-		height: '23%',
-		opacity: '.96',
-		marginLeft: '4%',
-		marginBottom: '4%',
-		marginTop: '2%',
-	    boxShadow: 'inset 5px 5px 15px #000',
-	    border: '1px solid black',
-	    ':hover': {
-	    	backgroundColor: 'purple',
-	    }
-	},
-	newGame: {
-		background: 'transparent',
-		padding: '5px',
-		fontStyle: 'bold',
-		margin: '-25px 0px 0px 115px',
-		border: '0px !important',
-		cursor: 'pointer',
-		float: 'right',
-		fontSize: '1.6em',
-		':hover': {
-			color: '#00ff00', 
-			opacity: 1,
-		}
-	},
-	winModal: {
-		background: 'black',
-		marginTop: '-25px',
-		opacity: .7,
-		width: '500px',
-		height: '300px',
-		position: 'absolute',
-		borderRadius: '15px',
-		border: '1px solid purple',
-	},
-	winText: {
-		fontSize: '5em',
-		color: '#00FF00',
-		textAlign: 'center',
-		verticalAlign: 'center',
-		opacity: 2,
-	},
 	copyright: {
 		float: 'right',
 		fontSize: '.8em',
@@ -68,75 +22,6 @@ var styles = {
 		}
 	}
 };
-
-var Card = Radium(React.createClass({
-	// takes in an image, flipped truthiness, and onPress flipped function as props
-	propTypes: {
-		image: React.PropTypes.string.isRequired,
-		flipped: React.PropTypes.bool.isRequired,
-		onClick: React.PropTypes.func.isRequired,
-	},
-
-	_onClickHandler() {
-		this.props.onClick(this.props.image)
-	},
-
-	render() {
-		var styleFlipped
-			= this.props.flipped
-			? {backgroundImage: 'url(https://dl.dropboxusercontent.com/s/' + this.props.image + ')',
-			   backgroundSize: 'cover'}
-			: {backgroundColor: 'gray'};
-
-		return(
-			<li
-				onClick={this._onClickHandler}
-				style={[styles.card, styleFlipped]}>
-			</li>
-		);
-	}
-}));
-
-var NewGameButton = Radium(React.createClass({
-	propTypes: {
-		gameOver: React.PropTypes.bool.isRequired,
-		onClick: React.PropTypes.func.isRequired,
-	},
-
-	_onClickHandler() {
-		this.props.OnClick();
-	},
-
-	render() {
-		var styleGameOver
-			= this.props.gameOver
-			? {color: '#00ff00', opacity: 1}
-			: {color: 'gray', opacity: .4}
-
-		return (
-			<li><i onClick={this._onClickHandler} style={[styles.newGame, styleGameOver]} className='fa fa-refresh'></i></li>
-		);
-	}
-}));
-
-var WinModal = Radium(React.createClass({
-	propTypes: {
-		won: React.PropTypes.bool.isRequired,
-	},
-
-	render() {
-		var modalStyling
-			= this.props.won
-			? {visibility: 'visible', transitionDelay: '1s'}
-			: {visibility: 'hidden'};
-
-		return (
-			<div style={[styles.winModal, modalStyling]}>
-				<p style={styles.winText}>YOU WIN!</p>
-		  	</div>
-		);
-	}
-}));
 
 var Game = Radium(React.createClass({
 	// takes the images array as a prop from the main component
@@ -277,7 +162,7 @@ var Game = Radium(React.createClass({
 			errors: 0,
 			gameOver: false,
 			won: false,
-		}.bind(this));
+		});
 	},
 
 	render() {
@@ -315,5 +200,3 @@ var Game = Radium(React.createClass({
 		);
 	}
 }));
-
-ReactDOM.render(<Game images={CARDS} />, document.getElementById('container'));
