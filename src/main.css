@@ -1,6 +1,6 @@
 @import 'reset.css'
 
-html, body {
+html {
  margin: 0;
  padding: 0;
  color: white;
@@ -10,6 +10,8 @@ html, body {
 body {
 	background: url('https://dl.dropboxusercontent.com/s/quaxsr8vn3hdi9e/background.jpg?dl=0') no-repeat;
 	background-size: cover;
+	padding: 0;
+	margin: 0;
 }
 
 ul {
@@ -27,6 +29,7 @@ a {
 	text-align: center;
 	white-space: nowrap;
 	background: transparent;
+	min-width: 1150px;
 }
 
 .title {
@@ -51,13 +54,13 @@ a {
 	margin-left: auto;
 	margin-right: auto;
 	width: 1150px;
-	height: 650px;
+	height: 100vh;
 	background: transparent;
 }
 
 .game-container {
 	width: 95%;
-	height: 100%;
+	height: 650px;
 	background: url('https://dl.dropboxusercontent.com/s/yfg0jkm338hriyq/axiom.png?dl=0') no-repeat center;
 	margin-left: auto;
 	margin-right: auto;
@@ -96,22 +99,6 @@ a {
 .game-counters >li:nth-child(2) {
 	margin-right: 225px;
 }
-
-button, .start-button{
-	background: transparent;
-	padding: 5px;
-	opacity: .4;
-	font-style: bold;
-	margin: -25px 0px 0px 115px;
-	color: gray;
-	border: 0px !important;
-	cursor: pointer;
-	float: right;
-	font-size: 1.6em;
-}
-
-button:focus {outline:0;}
-button:hover {color: #00ff00; opacity: 1;}
 
 .walle-counter {
 	width: 90px;
@@ -158,18 +145,3 @@ button:hover {color: #00ff00; opacity: 1;}
 
 .about:hover {opacity: .9;}
 
-.copyright {
-	float: right;
-	font-size: .8em;
-	opacity: .4;
-}
-
-.pixar {
-	color: purple;
-	font-size: .8;
-}
-
-.pixar:hover {
-	color: white;
-	opacity: 2;
-}

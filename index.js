@@ -53,6 +53,19 @@ var styles = {
 		textAlign: 'center',
 		verticalAlign: 'center',
 		opacity: 2,
+	},
+	copyright: {
+		float: 'right',
+		fontSize: '.8em',
+		opacity: .4,
+		color: 'white',
+	},
+	pixar: {
+		color: '#aa8cc5',
+		fontStyle: 'bold',
+		':hover': {
+			color: 'white',
+		}
 	}
 };
 
@@ -192,11 +205,11 @@ var Game = Radium(React.createClass({
 	},
 
 	_onClick(image) {
-		this._gameOverCheck(image);
 		if(this.state.gameOver) {
 			return;
 		} else {
 			if(!this.state.flippedValues[this._cardIndex(image)]) {
+				this._gameOverCheck(image);
 				this._updateFlippedValues(image);
 				this._updateFlippedImages(image);
 				this._walleCount(image);
@@ -291,11 +304,11 @@ var Game = Radium(React.createClass({
 					</ul>
 				</div>
 				<div className='info'>
-					<a href='http://aliayoub.com'>
+					<a href='http://www.amoderndev.com'>
 						<p className='about' target='_blank'>created by Ali Ayoub</p>
 					</a>
-					<p className='copyright'>All artwork and the name Wall-E are property of 
-						<a href='http://www.pixar.com/' className='pixar'> Pixar</a>
+					<p style={styles.copyright}>All artwork and the name Wall-E are property of 
+						<a href='http://www.pixar.com/' style={styles.pixar}> Pixar</a>
 					</p>
 				</div>
 			</div>
