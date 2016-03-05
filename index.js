@@ -22,6 +22,37 @@ var styles = {
 	    ':hover': {
 	    	backgroundColor: 'purple',
 	    }
+	},
+	newGame: {
+		background: 'transparent',
+		padding: '5px',
+		fontStyle: 'bold',
+		margin: '-25px 0px 0px 115px',
+		border: '0px !important',
+		cursor: 'pointer',
+		float: 'right',
+		fontSize: '1.6em',
+		':hover': {
+			color: '#00ff00', 
+			opacity: 1,
+		}
+	},
+	winModal: {
+		background: 'black',
+		marginTop: '-25px',
+		opacity: .7,
+		width: '500px',
+		height: '300px',
+		position: 'absolute',
+		borderRadius: '15px',
+		border: '1px solid purple',
+	},
+	winText: {
+		fontSize: '5em',
+		color: '#00FF00',
+		textAlign: 'center',
+		verticalAlign: 'center',
+		opacity: 2,
 	}
 };
 
@@ -33,11 +64,11 @@ var Card = Radium(React.createClass({
 		onClick: React.PropTypes.func.isRequired,
 	},
 
-	_onClickHandler: function() {
+	_onClickHandler() {
 		this.props.onClick(this.props.image)
 	},
 
-	render: function() {
+	render() {
 		var styleFlipped
 			= this.props.flipped
 			? {backgroundImage: 'url(https://dl.dropboxusercontent.com/s/' + this.props.image + ')',
@@ -53,19 +84,46 @@ var Card = Radium(React.createClass({
 	}
 }));
 
-/**
-var newGameButton = React.createClass({
+var NewGameButton = Radium(React.createClass({
 	propTypes: {
-		active: React.PropTypes.bool.isRequired,
-	}
-});
+		gameOver: React.PropTypes.bool.isRequired,
+		onClick: React.PropTypes.func.isRequired,
+	},
 
-var winModal = React.createClass({
-	propTypes: {
-		render: React.PropTypes.bool.isRequired,
+	_onClickHandler() {
+		this.props.OnClick();
+	},
+
+	render() {
+		var styleGameOver
+			= this.props.gameOver
+			? {color: '#00ff00', opacity: 1}
+			: {color: 'gray', opacity: .4}
+
+		return (
+			<li><i onClick={this._onClickHandler} style={[styles.newGame, styleGameOver]} className='fa fa-refresh'></i></li>
+		);
 	}
-});
-**/
+}));
+
+var WinModal = Radium(React.createClass({
+	propTypes: {
+		won: React.PropTypes.bool.isRequired,
+	},
+
+	render() {
+		var modalStyling
+			= this.props.won
+			? {visibility: 'visible', transitionDelay: '1s'}
+			: {visibility: 'hidden'};
+
+		return (
+			<div style={[styles.winModal, modalStyling]}>
+				<p style={styles.winText}>YOU WIN!</p>
+		  	</div>
+		);
+	}
+}));
 
 var Game = Radium(React.createClass({
 	// takes the images array as a prop from the main component
@@ -103,6 +161,7 @@ var Game = Radium(React.createClass({
 			walles: 0,
 			errors: 0,
 			gameOver: false,
+			won: false,
 		};
 	},
 
@@ -180,8 +239,9 @@ var Game = Radium(React.createClass({
 			this._cardName(image) === 'k3xkgdci3h9mlnf/walle.jpg?dl=0' || 
 			this._cardName(image) === 'epmgt0g9on02unj/walle2.jpg?dl=0') {
 			this.setState({
-				gameOver: true
-			})
+				gameOver: true,
+				won: true
+			});
 		}
 	},
 
@@ -191,11 +251,23 @@ var Game = Radium(React.createClass({
 			this._cardName(image) !== 'epmgt0g9on02unj/walle2.jpg?dl=0') {
 			this.setState({
 				gameOver: true
-			})
+			});
 		}
 	},
 
-	render: function() {
+	_onClickNewGameButton() {
+		this.setState({
+			shuffledCards: this._startingImages(),
+			flippedValues: [false, false, false, false, false, false],
+			flippedImages: [],
+			walles: 0,
+			errors: 0,
+			gameOver: false,
+			won: false,
+		}.bind(this));
+	},
+
+	render() {
 		var board = this.state.shuffledCards.map((card, index) => {
 			return <Card image={card} key={card} onClick={this._onClick} flipped={this.state.flippedValues[index]} />
 		});
@@ -208,13 +280,14 @@ var Game = Radium(React.createClass({
 						<li>{this.state.errors}</li>
 						<li><img className='walle-counter' src='https://dl.dropboxusercontent.com/s/k3xkgdci3h9mlnf/walle.jpg?dl=0' /></li>
 						<li>{this.state.walles}</li>
-						<li><button><i className='fa fa-refresh'></i></button></li>
+						<NewGameButton gameOver={this.state.gameOver} onClick={this._onClickNewGameButton} />
 						{console.log(this.state.gameOver)}
 					</ul>
 				</div>
 				<div className='game-board'>
-					<ul clasName='grid'>
+					<ul className='grid'>
 						{board}
+						<WinModal won={this.state.won} />
 					</ul>
 				</div>
 				<div className='info'>
