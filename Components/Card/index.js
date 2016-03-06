@@ -42,7 +42,7 @@ export default class Card extends React.Component {
 
 		return(
 			<li
-				onClick={this._onClickHandler}
+				onClick={this._onClickHandler.bind(this)}
 				style={[styles.card, styleFlipped]}>
 			</li>
 		);

@@ -24,9 +24,11 @@ const styles = {
 };
 
 @Radium
-export default class Game extends React.Component {
+class Game extends React.Component {
 	constructor(props) {
 		super(props);
+		this._onClick = this._onClick.bind(this);
+		this._onClickNewGameButton = this._onClickNewGameButton.bind(this);
 		this.state = {
 			shuffledCards: this._startingImages(),
 			flippedValues: [false, false, false, false, false, false],
@@ -174,7 +176,7 @@ export default class Game extends React.Component {
 						<li>{this.state.errors}</li>
 						<li><img className='walle-counter' src='https://dl.dropboxusercontent.com/s/k3xkgdci3h9mlnf/walle.jpg?dl=0' /></li>
 						<li>{this.state.walles}</li>
-						<NewGameButton gameOver={this.state.gameOver} onClick={this._onClickNewGameButton.bind(this)} />
+						<NewGameButton gameOver={this.state.gameOver} onClick={this._onClickNewGameButton} />
 						{console.log(this.state.gameOver)}
 					</ul>
 				</div>
@@ -196,3 +198,5 @@ export default class Game extends React.Component {
 		);
 	}
 };
+
+export default Game;

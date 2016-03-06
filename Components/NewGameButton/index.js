@@ -25,7 +25,7 @@ const styles = {
 export default class NewGameButton extends React.Component {
 	constructor(props) {
 		super(props);
-
+		this._onClickHandler = this._onClickHandler.bind(this);
 	}
 
 	_onClickHandler() {
@@ -39,7 +39,7 @@ export default class NewGameButton extends React.Component {
 			: {color: 'gray', opacity: .4}
 
 		return (
-			<li style={[styles.newGame, styleGameOver]}><i onClick={this._onClickHandler.bind(this)} className='fa fa-refresh'></i></li>
+			<li><i onClick={this._onClickHandler} style={[styles.newGame, styleGameOver]} className='fa fa-refresh'></i></li>
 		);
 	}
 };
