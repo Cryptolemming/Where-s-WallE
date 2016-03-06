@@ -18,7 +18,8 @@ module.exports = {
 				loader: 'babel',
 				exclude: /node_modules/,
 				query: {
-					presets: ['stage-0', 'es2015', 'react']
+					presets: ['es2015', 'stage-0', 'react'],
+					plugins: ["transform-decorators-legacy"]
 				}
 			},
 			{
@@ -26,7 +27,8 @@ module.exports = {
 				loader: 'babel-loader',
 				exclude: /node_modules/,
 				query: {
-					presets: ['stage-0', 'es2015', 'react']
+					presets: ['es2015', 'react', 'stage-0'],
+					plugins: ["transform-decorators-legacy"]
 				}
 			},
 			{

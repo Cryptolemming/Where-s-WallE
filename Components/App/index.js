@@ -14,15 +14,13 @@ const CARDS = [
 	'uho6nbflui260ca/mary.jpg?dl=0',
 ];
 
-var App = React.createClass({
+@Radium
+class App extends React.Component {
 	render() {
 		return (
-			<div>
 				<Game images={CARDS} />,
-				{console.log(Game)}
-			</div>
 		)
 	}
-})
+};
 
 ReactDOM.render(<App />, document.getElementById('container'));

@@ -23,17 +23,15 @@ var styles = {
 	},
 };
 
-var Card = Radium(React.createClass({
-	// takes in an image, flipped truthiness, and onPress flipped function as props
-	propTypes: {
-		image: React.PropTypes.string.isRequired,
-		flipped: React.PropTypes.bool.isRequired,
-		onClick: React.PropTypes.func.isRequired,
-	},
+@Radium
+export default class Card extends React.Component {
+	constructor(props) {
+		super(props);
+	}
 
 	_onClickHandler() {
 		this.props.onClick(this.props.image);
-	},
+	}
 
 	render() {
 		var styleFlipped
@@ -49,4 +47,10 @@ var Card = Radium(React.createClass({
 			</li>
 		);
 	}
-}));
+};
+
+Card.propTypes = {
+	image: React.PropTypes.string.isRequired,
+	flipped: React.PropTypes.bool.isRequired,
+	onClick: React.PropTypes.func.isRequired,
+};

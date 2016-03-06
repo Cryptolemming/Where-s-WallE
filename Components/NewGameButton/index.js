@@ -4,7 +4,7 @@ import Radium from 'radium';
 
 'use strict';
 
-var styles = {
+const styles = {
 	newGame: {
 		background: 'transparent',
 		padding: '5px',
@@ -21,16 +21,16 @@ var styles = {
 	},
 };
 
-var NewGameButton = Radium(React.createClass({
-	propTypes: {
-		gameOver: React.PropTypes.bool.isRequired,
-		onClick: React.PropTypes.func.isRequired,
-	},
+@Radium
+export default class NewGameButton extends React.Component {
+	constructor(props) {
+		super(props);
+
+	}
 
 	_onClickHandler() {
-		this.props.OnClick()
-		console.log(this);
-	},
+		this.props.onClick()
+	}
 
 	render() {
 		var styleGameOver
@@ -39,9 +39,7 @@ var NewGameButton = Radium(React.createClass({
 			: {color: 'gray', opacity: .4}
 
 		return (
-			<li><i onClick={this._onClickHandler} style={[styles.newGame, styleGameOver]} className='fa fa-refresh'></i></li>
+			<li style={[styles.newGame, styleGameOver]}><i onClick={this._onClickHandler.bind(this)} className='fa fa-refresh'></i></li>
 		);
 	}
-}));
-
-module.exports = NewGameButton;
+};

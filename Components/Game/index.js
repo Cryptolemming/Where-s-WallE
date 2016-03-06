@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Radium from 'radium';
-import {Card} from '../Card/index.js';
-import {NewGameButton} from '../NewGameButton/index.js';
-import {WinModal} from '../WinModal/index.js';
+import Card from '../Card';
+import NewGameButton from '../NewGameButton';
+import WinModal from '../WinModal';
 
 'use strict';
 
-var styles = {
+const styles = {
 	copyright: {
 		float: 'right',
 		fontSize: '.8em',
@@ -23,11 +23,20 @@ var styles = {
 	}
 };
 
-var Game = Radium(React.createClass({
-	// takes the images array as a prop from the main component
-	propTypes: {
-		images: React.PropTypes.array.isRequired,
-	},
+@Radium
+export default class Game extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			shuffledCards: this._startingImages(),
+			flippedValues: [false, false, false, false, false, false],
+			flippedImages: [],
+			walles: 0,
+			errors: 0,
+			gameOver: false,
+			won: false,
+		};
+	}
 
 	// shuffles the images for the cards
 	_shuffleImages(images) {
@@ -44,32 +53,19 @@ var Game = Radium(React.createClass({
 		}
 
 		return images;
-	},
+	}
 
 	_startingImages() {
 		return this._shuffleImages(this.props.images);
-	},
-
-	// the initial state is that initial card data object
-	getInitialState() {
-		return {
-			shuffledCards: this._startingImages(),
-			flippedValues: [false, false, false, false, false, false],
-			flippedImages: [],
-			walles: 0,
-			errors: 0,
-			gameOver: false,
-			won: false,
-		};
-	},
+	}
 
 	_cardIndex(image) {
 		return this.state.shuffledCards.indexOf(image);
-	},
+	}
 
 	_cardName(image) {
 		return this.state.shuffledCards[this._cardIndex(image)];
-	},
+	}
 
 	_updateFlippedValues(image) {
 		var emptyValues = [];
@@ -78,7 +74,7 @@ var Game = Radium(React.createClass({
 		this.setState({
 			flippedValues: updateFlippedValues,
 		})
-	},
+	}
 
 	_updateFlippedImages(image) {
 		var emptyImages = [];
@@ -87,7 +83,7 @@ var Game = Radium(React.createClass({
 		this.setState({
 			flippedImages: updateFlippedImages,
 		})
-	},
+	}
 
 	_onClick(image) {
 		if(this.state.gameOver) {
@@ -101,7 +97,7 @@ var Game = Radium(React.createClass({
 				this._countErrors(image);
 			}
 		}
-	},
+	}
 
 	_walleCount(image) {
 		var count = 0;
@@ -112,7 +108,7 @@ var Game = Radium(React.createClass({
 		this.setState({
 			walles: this.state.walles + count,
 		});
-	},
+	}
 
 	_countErrors(image) {
 		var count = 0;
@@ -123,14 +119,14 @@ var Game = Radium(React.createClass({
 		this.setState({
 			errors: this.state.errors + count,
 		});
-	},
+	}
 
 	_gameOverCheck(image) {
 		if (this.state.walles === 1 || this.state.errors === 3) {
 			this._gameOverWin(image);
 			this._gameOverLose(image);
 		}
-	},
+	}
 
 	_gameOverWin(image) {
 		if (this.state.walles === 1 && 
@@ -141,7 +137,7 @@ var Game = Radium(React.createClass({
 				won: true
 			});
 		}
-	},
+	}
 
 	_gameOverLose(image) {
 		if (this.state.errors === 3 && 
@@ -151,7 +147,7 @@ var Game = Radium(React.createClass({
 				gameOver: true
 			});
 		}
-	},
+	}
 
 	_onClickNewGameButton() {
 		this.setState({
@@ -163,7 +159,7 @@ var Game = Radium(React.createClass({
 			gameOver: false,
 			won: false,
 		});
-	},
+	}
 
 	render() {
 		var board = this.state.shuffledCards.map((card, index) => {
@@ -178,7 +174,7 @@ var Game = Radium(React.createClass({
 						<li>{this.state.errors}</li>
 						<li><img className='walle-counter' src='https://dl.dropboxusercontent.com/s/k3xkgdci3h9mlnf/walle.jpg?dl=0' /></li>
 						<li>{this.state.walles}</li>
-						<NewGameButton gameOver={this.state.gameOver} onClick={this._onClickNewGameButton} />
+						<NewGameButton gameOver={this.state.gameOver} onClick={this._onClickNewGameButton.bind(this)} />
 						{console.log(this.state.gameOver)}
 					</ul>
 				</div>
@@ -199,4 +195,4 @@ var Game = Radium(React.createClass({
 			</div>
 		);
 	}
-}));
+};

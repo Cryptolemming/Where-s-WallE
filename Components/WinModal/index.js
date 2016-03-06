@@ -4,7 +4,7 @@ import Radium from 'radium';
 
 'use strict';
 
-var styles = {
+const styles = {
 	winModal: {
 		background: 'black',
 		marginTop: '-25px',
@@ -24,10 +24,11 @@ var styles = {
 	},
 };
 
-var WinModal = Radium(React.createClass({
-	propTypes: {
-		won: React.PropTypes.bool.isRequired,
-	},
+@Radium
+export default class WinModal extends React.Component {
+	constructor(props) {
+		super(props);
+	}
 
 	render() {
 		var modalStyling
@@ -41,6 +42,11 @@ var WinModal = Radium(React.createClass({
 		  	</div>
 		);
 	}
-}));
+};
 
-module.exports = WinModal;
+WinModal.propTypes = {
+	won: React.PropTypes.bool.isRequired,
+};
+WinModal.defaultProps = {
+	won: false
+};
