@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dist": "webpack -p",
+    "postinstall": "npm run dist",
     "start": "node app.js"
   },
   "repository": {
