@@ -27,6 +27,7 @@ var styles = {
 export default class Card extends React.Component {
 	constructor(props) {
 		super(props);
+		this._onClickHandler = this._onClickHandler.bind(this);
 	}
 
 	_onClickHandler() {
@@ -42,7 +43,7 @@ export default class Card extends React.Component {
 
 		return(
 			<li
-				onClick={this._onClickHandler.bind(this)}
+				onClick={this._onClickHandler}
 				style={[styles.card, styleFlipped]}>
 			</li>
 		);

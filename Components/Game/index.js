@@ -8,6 +8,15 @@ import WinModal from '../WinModal';
 'use strict';
 
 const styles = {
+	gameContainer: {
+		width: 95%;
+		height: '650px';
+		backgroundImage: 'url(https://dl.dropboxusercontent.com/s/yfg0jkm338hriyq/axiom.png?dl=0)',
+		backgroundRepeat: 'no-repeat',
+		backgroundPosition: 'center',
+		marginLeft: 'auto',
+		marginRight: 'auto',
+	},
 	copyright: {
 		float: 'right',
 		fontSize: '.8em',
@@ -169,7 +178,7 @@ class Game extends React.Component {
 		});
 
 		return(
-			<div className='game-container'>
+			<div style={styles.gameContainer}>
 				<div className='game-info'>
 					<ul className='game-counters'>
 						<li className='x-counter'>X</li>
