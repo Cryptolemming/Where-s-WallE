@@ -17,6 +17,13 @@ const styles = {
 		marginLeft: 'auto',
 		marginRight: 'auto',
 	},
+	gameBoard: {
+		marginLeft: '350px';
+		paddingLeft: '50px';
+		width: 55%;
+		height: 55%;
+		display: 'inline-block';
+	},
 	copyright: {
 		float: 'right',
 		fontSize: '.8em',
@@ -33,7 +40,7 @@ const styles = {
 };
 
 @Radium
-class Game extends React.Component {
+export default class Game extends React.Component {
 	constructor(props) {
 		super(props);
 		this._onClick = this._onClick.bind(this);
@@ -207,5 +214,3 @@ class Game extends React.Component {
 		);
 	}
 };
-
-export default Game;
